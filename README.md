@@ -12,6 +12,10 @@
             --deep-navy: #0f172a;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
             background: radial-gradient(circle at top, #1e293b 0%, #020617 100%);
@@ -48,13 +52,7 @@
             transition: all 0.3s ease;
         }
 
-        .btn-outline-gold {
-            border: 1px solid var(--royal-gold);
-            color: var(--royal-gold);
-            transition: all 0.3s ease;
-        }
-
-        /* Sidebar / Hamburger Menu Styles */
+        /* Sidebar / Hamburger Menu Styles - MOVED TO RIGHT */
         #sideMenu {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 100;
@@ -86,31 +84,31 @@
 </head>
 <body class="p-4 md:p-8">
 
-    <!-- Hamburger Toggle Button -->
-    <button onclick="toggleMenu()" class="fixed top-6 left-6 z-[110] glass-card p-3 rounded-full hover:border-yellow-500 transition-colors">
+    <!-- Hamburger Toggle Button - RIGHT SIDE -->
+    <button onclick="toggleMenu()" class="fixed top-6 right-6 z-[110] glass-card p-3 rounded-full hover:border-yellow-500 transition-colors">
         <svg id="menuIcon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
     </button>
 
-    <!-- Side Menu Overlay -->
-    <div id="sideMenu" class="fixed top-0 left-0 h-full w-[300px] glass-card border-r border-white/10 p-8 -translate-x-full shadow-2xl flex flex-col">
+    <!-- Side Menu Overlay - RIGHT SIDE -->
+    <div id="sideMenu" class="fixed top-0 right-0 h-full w-[300px] glass-card border-l border-white/10 p-8 translate-x-full shadow-2xl flex flex-col text-right">
         <div class="mb-12">
             <h2 class="serif-font gold-gradient text-2xl font-bold uppercase tracking-widest">Navigation</h2>
         </div>
         <nav class="flex flex-col gap-6 text-lg uppercase tracking-widest font-light">
-            <a href="#" onclick="showCategories(); toggleMenu()" class="hover:text-yellow-500 transition-colors">Home</a>
-            <a href="#categoryGrid" onclick="toggleMenu()" class="hover:text-yellow-500 transition-colors">Collections</a>
-            <a href="#reviews-section" onclick="toggleMenu()" class="hover:text-yellow-500 transition-colors">Reviews</a>
-            <a href="#faq-section" onclick="toggleMenu()" class="hover:text-yellow-500 transition-colors">FAQs</a>
-            <a href="#order-section" onclick="toggleMenu()" class="hover:text-yellow-500 transition-colors">Order Now</a>
+            <a href="javascript:void(0)" onclick="handleNav('home')" class="hover:text-yellow-500 transition-colors">Home</a>
+            <a href="javascript:void(0)" onclick="handleNav('collections')" class="hover:text-yellow-500 transition-colors">Collections</a>
+            <a href="javascript:void(0)" onclick="handleNav('reviews')" class="hover:text-yellow-500 transition-colors">Reviews</a>
+            <a href="javascript:void(0)" onclick="handleNav('faqs')" class="hover:text-yellow-500 transition-colors">FAQs</a>
+            <a href="javascript:void(0)" onclick="handleNav('order')" class="hover:text-yellow-500 transition-colors">Order Now</a>
         </nav>
         <div class="mt-auto pt-8 border-t border-white/10">
             <p class="text-[10px] text-slate-500 uppercase tracking-widest">Al Ghani Luxury Brands</p>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-7xl mx-auto" id="home-top">
         
         <!-- Header -->
         <header class="text-center mb-16 pt-10">
@@ -128,7 +126,7 @@
         <!-- Navigation Bar (Sub-categories) -->
         <nav id="topNav" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-card px-4 py-2 rounded-full hidden shadow-2xl">
             <div class="flex gap-2 text-white">
-                <button onclick="showCategories()" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Home</button>
+                <button onclick="showCategories()" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Back</button>
                 <button onclick="changeCategory('kids')" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Kids</button>
                 <button onclick="changeCategory('women')" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Women</button>
                 <button onclick="changeCategory('men')" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Men</button>
@@ -137,7 +135,7 @@
         </nav>
 
         <!-- Main Categories -->
-        <main>
+        <main id="collections-section">
             <div class="flex flex-col items-center mb-12">
                 <h2 id="mainHeading" class="serif-font text-3xl md:text-4xl text-white mb-2 uppercase tracking-widest">Shop By Category</h2>
                 <div class="h-1 w-20 bg-yellow-600 rounded-full"></div>
@@ -288,6 +286,25 @@
             menu.classList.toggle('menu-open');
         }
 
+        // Central navigation handler to close menu and scroll to section
+        function handleNav(section) {
+            toggleMenu(); // Close menu
+            
+            if (section === 'home') {
+                showCategories();
+                document.getElementById('home-top').scrollIntoView({ behavior: 'smooth' });
+            } else if (section === 'collections') {
+                showCategories();
+                document.getElementById('collections-section').scrollIntoView({ behavior: 'smooth' });
+            } else if (section === 'reviews') {
+                document.getElementById('reviews-section').scrollIntoView({ behavior: 'smooth' });
+            } else if (section === 'faqs') {
+                document.getElementById('faq-section').scrollIntoView({ behavior: 'smooth' });
+            } else if (section === 'order') {
+                document.getElementById('order-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
         const inventory = [
             { name: "Bubblegum Joy", category: "kids", price: 1000, img: "https://i.postimg.cc/BPcV86n3/Screenshot-2024-05-05-145813.png" },
             { name: "Candy Cloud", category: "kids", price: 1000, img: "https://i.postimg.cc/BPcV86n3/Screenshot-2024-05-05-145813.png" },
@@ -316,7 +333,7 @@
                         <button onclick="selectForOrder('${p.name}')" class="btn-gold w-full py-2 rounded-xl text-xs uppercase tracking-widest">Select Item</button>
                     </div>`;
             });
-            window.scrollTo({ top: 400, behavior: 'smooth' });
+            document.getElementById('collections-section').scrollIntoView({ behavior: 'smooth' });
         }
 
         function showCategories() {
@@ -324,7 +341,6 @@
             document.getElementById('productGrid').classList.add('hidden');
             document.getElementById('topNav').classList.add('hidden');
             document.getElementById('mainHeading').textContent = "Shop By Category";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function selectForOrder(pName) {
