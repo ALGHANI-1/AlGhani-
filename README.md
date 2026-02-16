@@ -10,7 +10,6 @@
             --royal-gold: #c5a059;
             --soft-gold: #e2c275;
             --deep-navy: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.03);
         }
 
         body {
@@ -22,7 +21,6 @@
 
         .serif-font { font-family: 'Cinzel', serif; }
 
-        /* Smooth Glass Effect */
         .glass-card {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(15px);
@@ -34,29 +32,20 @@
             background: rgba(255, 255, 255, 0.05);
             border-color: var(--royal-gold);
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* Gold Gradient Text */
         .gold-gradient {
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Premium Buttons */
         .btn-gold {
             background: linear-gradient(135deg, #c5a059 0%, #927438 100%);
             color: #000;
             font-weight: 700;
             letter-spacing: 1px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
-        }
-
-        .btn-gold:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 25px rgba(197, 160, 89, 0.5);
         }
 
         .btn-outline-gold {
@@ -65,35 +54,23 @@
             transition: all 0.3s ease;
         }
 
-        .btn-outline-gold:hover {
-            background: var(--royal-gold);
-            color: #000;
+        /* Sidebar / Hamburger Menu Styles */
+        #sideMenu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
         }
 
-        /* Animations */
+        .menu-open { transform: translateX(0) !important; }
+
+        /* FAQ Accordion */
+        .faq-item input:checked ~ .faq-content { max-height: 200px; padding-top: 1rem; }
+        .faq-content { max-height: 0; overflow: hidden; transition: all 0.3s ease; }
+
         @keyframes float {
-            0% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
         }
-
         .float-anim { animation: float 4s ease-in-out infinite; }
-
-        .reveal-anim {
-            animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Category Transition */
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
 
         .message-toast {
             position: fixed;
@@ -109,195 +86,236 @@
 </head>
 <body class="p-4 md:p-8">
 
+    <!-- Hamburger Toggle Button -->
+    <button onclick="toggleMenu()" class="fixed top-6 left-6 z-[110] glass-card p-3 rounded-full hover:border-yellow-500 transition-colors">
+        <svg id="menuIcon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+    </button>
+
+    <!-- Side Menu Overlay -->
+    <div id="sideMenu" class="fixed top-0 left-0 h-full w-[300px] glass-card border-r border-white/10 p-8 -translate-x-full shadow-2xl flex flex-col">
+        <div class="mb-12">
+            <h2 class="serif-font gold-gradient text-2xl font-bold uppercase tracking-widest">Navigation</h2>
+        </div>
+        <nav class="flex flex-col gap-6 text-lg uppercase tracking-widest font-light">
+            <a href="#" onclick="showCategories(); toggleMenu()" class="hover:text-yellow-500 transition-colors">Home</a>
+            <a href="#categoryGrid" onclick="toggleMenu()" class="hover:text-yellow-500 transition-colors">Collections</a>
+            <a href="#reviews-section" onclick="toggleMenu()" class="hover:text-yellow-500 transition-colors">Reviews</a>
+            <a href="#faq-section" onclick="toggleMenu()" class="hover:text-yellow-500 transition-colors">FAQs</a>
+            <a href="#order-section" onclick="toggleMenu()" class="hover:text-yellow-500 transition-colors">Order Now</a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-white/10">
+            <p class="text-[10px] text-slate-500 uppercase tracking-widest">Al Ghani Luxury Brands</p>
+        </div>
+    </div>
+
     <div class="max-w-7xl mx-auto">
         
-        <!-- Luxury Header -->
-        <header class="text-center mb-16 reveal-anim">
+        <!-- Header -->
+        <header class="text-center mb-16 pt-10">
             <div class="flex justify-center mb-6">
                 <img src="https://i.postimg.cc/LqWtTMb1/Screenshot-2024-05-05-152628.png" alt="Al Ghani Logo" class="h-24 md:h-32 float-anim filter brightness-110">
             </div>
             <h1 class="serif-font text-5xl md:text-8xl font-bold gold-gradient tracking-tighter mb-4">Al Ghani</h1>
             <div class="flex items-center justify-center gap-4">
                 <div class="h-px w-12 bg-gradient-to-r from-transparent to-yellow-600"></div>
-                <p class="text-slate-400 tracking-[0.4em] text-xs md:text-sm uppercase">Pure Luxury Fragrances</p>
+                <p class="text-slate-400 tracking-[0.4em] text-[10px] md:text-sm uppercase font-medium">Pure Luxury Fragrances</p>
                 <div class="h-px w-12 bg-gradient-to-l from-transparent to-yellow-600"></div>
             </div>
         </header>
 
-        <!-- Navigation Bar (Hidden by default, shown in sub-category) -->
-        <nav id="topNav" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-card px-4 py-2 rounded-full hidden fade-in">
-            <div class="flex gap-2">
-                <button onclick="showCategories()" class="text-xs font-bold uppercase px-4 py-2 hover:text-yellow-500">Home</button>
-                <div class="w-px h-4 bg-white/10 self-center"></div>
-                <button onclick="changeCategory('kids')" class="text-xs font-bold uppercase px-4 py-2 hover:text-yellow-500">Kids</button>
-                <button onclick="changeCategory('women')" class="text-xs font-bold uppercase px-4 py-2 hover:text-yellow-500">Women</button>
-                <button onclick="changeCategory('men')" class="text-xs font-bold uppercase px-4 py-2 hover:text-yellow-500">Men</button>
-                <button onclick="changeCategory('special')" class="text-xs font-bold uppercase px-4 py-2 hover:text-yellow-500">Special</button>
+        <!-- Navigation Bar (Sub-categories) -->
+        <nav id="topNav" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-card px-4 py-2 rounded-full hidden shadow-2xl">
+            <div class="flex gap-2 text-white">
+                <button onclick="showCategories()" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Home</button>
+                <button onclick="changeCategory('kids')" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Kids</button>
+                <button onclick="changeCategory('women')" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Women</button>
+                <button onclick="changeCategory('men')" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Men</button>
+                <button onclick="changeCategory('special')" class="text-[10px] md:text-xs font-bold uppercase px-3 py-2 hover:text-yellow-500">Special</button>
             </div>
         </nav>
 
-        <!-- Main Content -->
+        <!-- Main Categories -->
         <main>
-            <!-- Title Section -->
             <div class="flex flex-col items-center mb-12">
-                <h2 id="mainHeading" class="serif-font text-3xl md:text-4xl text-white mb-2">Shop By Category</h2>
+                <h2 id="mainHeading" class="serif-font text-3xl md:text-4xl text-white mb-2 uppercase tracking-widest">Shop By Category</h2>
                 <div class="h-1 w-20 bg-yellow-600 rounded-full"></div>
             </div>
 
-            <!-- Category Grid (The Home View) -->
-            <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 reveal-anim">
+            <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Kids -->
                 <div class="glass-card rounded-[2rem] p-6 text-center group cursor-pointer" onclick="changeCategory('kids')">
                     <div class="aspect-square overflow-hidden rounded-2xl mb-6">
                         <img src="https://i.postimg.cc/BPcV86n3/Screenshot-2024-05-05-145813.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <h3 class="serif-font text-2xl mb-2">Kids Variety</h3>
-                    <p class="text-slate-400 text-sm mb-6">Maasoom aur meethey scents bacho ke liye.</p>
-                    <button class="btn-outline-gold w-full py-3 rounded-xl font-bold uppercase text-xs tracking-widest">More Options</button>
+                    <p class="text-slate-400 text-sm">Gentle and sweet scents for kids.</p>
                 </div>
-
                 <!-- Women -->
                 <div class="glass-card rounded-[2rem] p-6 text-center group cursor-pointer" onclick="changeCategory('women')">
                     <div class="aspect-square overflow-hidden rounded-2xl mb-6">
                         <img src="https://i.postimg.cc/xqMCxSZS/Screenshot-2024-05-05-151454.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <h3 class="serif-font text-2xl mb-2">Women Bloom</h3>
-                    <p class="text-slate-400 text-sm mb-6">Phoolon jaisi nazaakat aur khushboo.</p>
-                    <button class="btn-outline-gold w-full py-3 rounded-xl font-bold uppercase text-xs tracking-widest">More Options</button>
+                    <p class="text-slate-400 text-sm">Floral elegance and grace.</p>
                 </div>
-
                 <!-- Men -->
                 <div class="glass-card rounded-[2rem] p-6 text-center group cursor-pointer" onclick="changeCategory('men')">
                     <div class="aspect-square overflow-hidden rounded-2xl mb-6">
                         <img src="https://i.postimg.cc/9420Hgwn/Screenshot-2024-05-05-153442.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <h3 class="serif-font text-2xl mb-2">Men Intense</h3>
-                    <p class="text-slate-400 text-sm mb-6">Mazboot aur pur-asar mardana khushboo.</p>
-                    <button class="btn-outline-gold w-full py-3 rounded-xl font-bold uppercase text-xs tracking-widest">More Options</button>
+                    <p class="text-slate-400 text-sm">Strong and bold masculine scents.</p>
                 </div>
-
                 <!-- Special -->
                 <div class="glass-card rounded-[2rem] p-6 text-center group cursor-pointer" onclick="changeCategory('special')">
                     <div class="aspect-square overflow-hidden rounded-2xl mb-6">
                         <img src="https://i.postimg.cc/hJQzKQ2X/Screenshot-2024-05-05-152909.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
-                    <h3 class="serif-font text-2xl mb-2">Exclusive Edition</h3>
-                    <p class="text-slate-400 text-sm mb-6">Hamari sab se nayab aur qeemti blends.</p>
-                    <button class="btn-outline-gold w-full py-3 rounded-xl font-bold uppercase text-xs tracking-widest">More Options</button>
+                    <h3 class="serif-font text-2xl mb-2">Exclusive</h3>
+                    <p class="text-slate-400 text-sm">Our most precious blends.</p>
                 </div>
             </div>
 
-            <!-- Product Display (Filtered Results) -->
-            <div id="productGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 fade-in">
-                <!-- Products will be injected here -->
-            </div>
+            <div id="productGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
         </main>
 
-        <!-- Order Form Section -->
-        <section id="order-section" class="mt-32 max-w-3xl mx-auto reveal-anim">
+        <!-- Reviews Section -->
+        <section id="reviews-section" class="mt-32">
+            <div class="text-center mb-12">
+                <h2 class="serif-font text-3xl gold-gradient uppercase tracking-widest">Customer Reviews</h2>
+                <p class="text-slate-500 mt-2">What our valued customers have to say</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-3xl relative">
+                    <div class="text-yellow-500 mb-4 text-xl">★★★★★</div>
+                    <p class="italic text-slate-300">"Honestly, the fragrance quality is outstanding. Long-lasting and I received the delivery right on time."</p>
+                    <div class="mt-6 font-bold text-sm gold-gradient uppercase tracking-tighter">— Ahmed Khan, Karachi</div>
+                </div>
+                <div class="glass-card p-8 rounded-3xl relative">
+                    <div class="text-yellow-500 mb-4 text-xl">★★★★★</div>
+                    <p class="italic text-slate-300">"Black Oud has become my favorite. It feels truly premium, comparable to top global brands."</p>
+                    <div class="mt-6 font-bold text-sm gold-gradient uppercase tracking-tighter">— Sarah Sheikh, Lahore</div>
+                </div>
+                <div class="glass-card p-8 rounded-3xl relative">
+                    <div class="text-yellow-500 mb-4 text-xl">★★★★★</div>
+                    <p class="italic text-slate-300">"My children loved the kids variety, Candy Cloud is the best. The packaging is very luxurious."</p>
+                    <div class="mt-6 font-bold text-sm gold-gradient uppercase tracking-tighter">— Mrs. Zafar, Islamabad</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq-section" class="mt-32 max-w-3xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="serif-font text-3xl gold-gradient uppercase tracking-widest">Frequently Asked Questions</h2>
+                <p class="text-slate-500 mt-2">Find answers to common queries</p>
+            </div>
+            <div class="space-y-4">
+                <div class="glass-card rounded-2xl p-6 faq-item">
+                    <input type="checkbox" id="faq1" class="hidden">
+                    <label for="faq1" class="flex justify-between items-center cursor-pointer font-bold">
+                        <span>How long does delivery take?</span>
+                        <span class="text-yellow-500 text-xl font-light transition-transform">+</span>
+                    </label>
+                    <div class="faq-content text-slate-400 text-sm leading-relaxed">
+                        Delivery to any city in Pakistan typically takes 2 to 4 working days.
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-6 faq-item">
+                    <input type="checkbox" id="faq2" class="hidden">
+                    <label for="faq2" class="flex justify-between items-center cursor-pointer font-bold">
+                        <span>What is the longevity of the fragrances?</span>
+                        <span class="text-yellow-500 text-xl font-light">+</span>
+                    </label>
+                    <div class="faq-content text-slate-400 text-sm leading-relaxed">
+                        Our fragrances usually last 8 to 12 hours on the skin, and even longer on fabric.
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-6 faq-item">
+                    <input type="checkbox" id="faq3" class="hidden">
+                    <label for="faq3" class="flex justify-between items-center cursor-pointer font-bold">
+                        <span>What payment methods are available?</span>
+                        <span class="text-yellow-500 text-xl font-light">+</span>
+                    </label>
+                    <div class="faq-content text-slate-400 text-sm leading-relaxed">
+                        We offer both Cash on Delivery (COD) and Bank Transfer/JazzCash payment options.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Form -->
+        <section id="order-section" class="mt-32 max-w-3xl mx-auto">
             <div class="glass-card rounded-[2.5rem] p-8 md:p-12 border-t-4 border-yellow-600">
                 <div class="text-center mb-10">
                     <h2 class="serif-font text-3xl gold-gradient uppercase tracking-widest mb-2">Book Your Essence</h2>
-                    <p class="text-slate-400 italic">Abhi order karein aur luxury mehsoos karein.</p>
+                    <p class="text-slate-400 italic text-sm">Order now to experience true luxury.</p>
                 </div>
-                
                 <form id="orderForm" onsubmit="handleOrder(event)" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] uppercase tracking-widest text-slate-500 ml-2">Poora Naam</label>
-                            <input type="text" id="custName" placeholder="Enter name" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-yellow-600 transition-all text-white" required>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] uppercase tracking-widest text-slate-500 ml-2">WhatsApp No.</label>
-                            <input type="tel" id="custPhone" placeholder="03xx xxxxxxx" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-yellow-600 transition-all text-white" required>
-                        </div>
+                        <input type="text" id="custName" placeholder="Full Name" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-yellow-600 transition-all text-white outline-none" required>
+                        <input type="tel" id="custPhone" placeholder="WhatsApp Number" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-yellow-600 transition-all text-white outline-none" required>
                     </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] uppercase tracking-widest text-slate-500 ml-2">Mukammal Address</label>
-                        <input type="text" id="custAddress" placeholder="Ghar ka pata aur shehar" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-yellow-600 transition-all text-white" required>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] uppercase tracking-widest text-slate-500 ml-2">Selected Perfume</label>
-                        <input type="text" id="selectedProduct" class="w-full bg-yellow-600/10 border border-yellow-600/30 rounded-2xl px-6 py-4 text-yellow-500 font-bold" readonly required placeholder="Upar se koi perfume select karein">
-                    </div>
-                    
-                    <button type="submit" class="btn-gold w-full py-5 rounded-2xl text-lg flex items-center justify-center gap-3 mt-4">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.038 3.284l-.569 2.1c-.149.546.338 1.033.884.884l2.1-.569c1.014.658 1.986 1.038 3.284 1.038 3.181 0 5.767-2.586 5.768-5.766 0-3.181-2.587-5.767-5.767-5.767zm3.39 8.135c-.15.422-.743.815-1.026.863-.283.048-.636.064-1.012-.056-.376-.12-1.623-.63-3.087-1.932-1.157-1.037-1.939-2.262-2.165-2.644-.225-.383-.024-.59.171-.785.176-.176.383-.445.575-.668.192-.223.256-.383.383-.638.128-.255.064-.479-.032-.67-.096-.191-.863-2.073-1.183-2.84-.31-.741-.628-.64-.863-.652-.221-.012-.475-.015-.729-.015-.254 0-.668.096-1.017.477-.349.381-1.332 1.302-1.332 3.174 0 1.871 1.364 3.682 1.554 3.937.191.255 2.685 4.1 6.503 5.746.908.391 1.618.625 2.17.8.913.29 1.745.249 2.403.15.733-.11 2.262-.925 2.578-1.819.317-.894.317-1.658.221-1.819-.096-.161-.351-.255-.702-.431z"/></svg>
-                        Confirm Order on WhatsApp
-                    </button>
+                    <input type="text" id="custAddress" placeholder="Complete Shipping Address" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:border-yellow-600 transition-all text-white outline-none" required>
+                    <input type="text" id="selectedProduct" class="w-full bg-yellow-600/10 border border-yellow-600/30 rounded-2xl px-6 py-4 text-yellow-500 font-bold" readonly required placeholder="Select a perfume above">
+                    <button type="submit" class="btn-gold w-full py-5 rounded-2xl text-lg flex items-center justify-center gap-3 uppercase tracking-widest">Confirm Order</button>
                 </form>
             </div>
         </section>
 
-        <!-- Simple Footer -->
+        <!-- Footer -->
         <footer class="mt-32 pb-16 text-center">
             <div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8"></div>
-            <p class="text-slate-500 text-xs tracking-[0.5em] uppercase mb-4">&copy; 2024 Al Ghani Fragrances</p>
-            <div class="flex justify-center gap-6 text-slate-400 text-sm">
-                <span>Insta</span>
-                <span>Fb</span>
-                <span>Contact</span>
+            <p class="text-slate-500 text-[10px] tracking-[0.5em] uppercase mb-8">&copy; 2024 Al Ghani Fragrances. All Rights Reserved.</p>
+            <div class="flex justify-center gap-8 items-center">
+                <a href="https://www.facebook.com/profile.php?id=61572821001883" target="_blank" class="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all text-slate-400 hover:text-white">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/alghanifragnance" target="_blank" class="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-pink-600 hover:border-pink-600 transition-all text-slate-400 hover:text-white">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849s-.011 3.584-.069 4.849c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.849-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849s.012-3.584.07-4.849c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.28.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.28-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4z"/></svg>
+                </a>
             </div>
         </footer>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="message-toast text-white font-bold shadow-2xl">
-        Order Sent to WhatsApp!
-    </div>
+    <div id="toast" class="message-toast text-white font-bold">Order Sent to WhatsApp!</div>
 
     <script>
+        function toggleMenu() {
+            const menu = document.getElementById('sideMenu');
+            menu.classList.toggle('menu-open');
+        }
+
         const inventory = [
-            // Kids
-            { name: "Bubblegum Joy", category: "kids", price: 1000, img: "https://i.postimg.cc/BPcV86n3/Screenshot-2024-05-05-145813.png", note: "Bacho ka pasandeeda" },
-            { name: "Candy Cloud", category: "kids", price: 1000, img: "https://i.postimg.cc/BPcV86n3/Screenshot-2024-05-05-145813.png", note: "Meetahi khushboo" },
-            { name: "Fairy Tale", category: "kids", price: 1000, img: "https://i.postimg.cc/BPcV86n3/Screenshot-2024-05-05-145813.png", note: "Magical Scent" },
-            // Women
-            { name: "Velvet Rose", category: "women", price: 1800, img: "https://i.postimg.cc/xqMCxSZS/Screenshot-2024-05-05-151454.png", note: "Luxury Rose" },
-            { name: "Midnight Jasmine", category: "women", price: 1800, img: "https://i.postimg.cc/xqMCxSZS/Screenshot-2024-05-05-151454.png", note: "Raat ki rani" },
-            { name: "Golden Bloom", category: "women", price: 2200, img: "https://i.postimg.cc/xqMCxSZS/Screenshot-2024-05-05-151454.png", note: "Premium Floral" },
-            // Men
-            { name: "Silver Mountain", category: "men", price: 1200, img: "https://i.postimg.cc/9420Hgwn/Screenshot-2024-05-05-153442.png", note: "Fresh & Strong" },
-            { name: "Black Oud", category: "men", price: 1500, img: "https://i.postimg.cc/9420Hgwn/Screenshot-2024-05-05-153442.png", note: "Arabic Classic" },
-            { name: "Oceanic Blue", category: "men", price: 1200, img: "https://i.postimg.cc/9420Hgwn/Screenshot-2024-05-05-153442.png", note: "Cool Breeze" },
-            // Special
-            { name: "Royal Amber", category: "special", price: 3000, img: "https://i.postimg.cc/hJQzKQ2X/Screenshot-2024-05-05-152909.png", note: "Rare Blend" },
-            { name: "Saffron Spirit", category: "special", price: 3500, img: "https://i.postimg.cc/hJQzKQ2X/Screenshot-2024-05-05-152909.png", note: "Zafran Mix" }
+            { name: "Bubblegum Joy", category: "kids", price: 1000, img: "https://i.postimg.cc/BPcV86n3/Screenshot-2024-05-05-145813.png" },
+            { name: "Candy Cloud", category: "kids", price: 1000, img: "https://i.postimg.cc/BPcV86n3/Screenshot-2024-05-05-145813.png" },
+            { name: "Velvet Rose", category: "women", price: 1800, img: "https://i.postimg.cc/xqMCxSZS/Screenshot-2024-05-05-151454.png" },
+            { name: "Golden Bloom", category: "women", price: 2200, img: "https://i.postimg.cc/xqMCxSZS/Screenshot-2024-05-05-151454.png" },
+            { name: "Silver Mountain", category: "men", price: 1200, img: "https://i.postimg.cc/9420Hgwn/Screenshot-2024-05-05-153442.png" },
+            { name: "Black Oud", category: "men", price: 1500, img: "https://i.postimg.cc/9420Hgwn/Screenshot-2024-05-05-153442.png" },
+            { name: "Royal Amber", category: "special", price: 3000, img: "https://i.postimg.cc/hJQzKQ2X/Screenshot-2024-05-05-152909.png" }
         ];
 
         function changeCategory(cat) {
-            const catGrid = document.getElementById('categoryGrid');
-            const prodGrid = document.getElementById('productGrid');
-            const nav = document.getElementById('topNav');
-            const heading = document.getElementById('mainHeading');
-
-            // Toggle visibility
-            catGrid.classList.add('hidden');
-            prodGrid.classList.remove('hidden');
-            nav.classList.remove('hidden');
+            document.getElementById('categoryGrid').classList.add('hidden');
+            document.getElementById('productGrid').classList.remove('hidden');
+            document.getElementById('topNav').classList.remove('hidden');
+            document.getElementById('mainHeading').textContent = cat.toUpperCase() + " COLLECTION";
             
-            heading.textContent = cat.charAt(0).toUpperCase() + cat.slice(1) + " Collection";
-            
-            // Build items
             const filtered = inventory.filter(p => p.category === cat);
-            prodGrid.innerHTML = '';
-            
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
             filtered.forEach(p => {
-                prodGrid.innerHTML += `
-                    <div class="glass-card rounded-[2rem] p-4 text-center group">
-                        <div class="aspect-square overflow-hidden rounded-2xl mb-4 relative">
-                            <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <span class="text-white font-bold tracking-widest text-xs">VIEW DETAILS</span>
-                            </div>
-                        </div>
-                        <h4 class="serif-font text-lg mb-1">${p.name}</h4>
+                grid.innerHTML += `
+                    <div class="glass-card rounded-[2rem] p-4 text-center">
+                        <img src="${p.img}" class="rounded-2xl mb-4">
+                        <h4 class="serif-font text-lg">${p.name}</h4>
                         <p class="text-yellow-600 font-bold mb-4">Rs. ${p.price.toLocaleString()}</p>
-                        <button onclick="selectForOrder('${p.name}')" class="btn-gold w-full py-3 rounded-xl text-xs uppercase">Select Scents</button>
-                    </div>
-                `;
+                        <button onclick="selectForOrder('${p.name}')" class="btn-gold w-full py-2 rounded-xl text-xs uppercase tracking-widest">Select Item</button>
+                    </div>`;
             });
-
             window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
@@ -311,20 +329,13 @@
 
         function selectForOrder(pName) {
             document.getElementById('selectedProduct').value = pName;
-            document.getElementById('order-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById('order-section').scrollIntoView({ behavior: 'smooth' });
         }
 
         function handleOrder(e) {
             e.preventDefault();
-            const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custPhone').value;
-            const addr = document.getElementById('custAddress').value;
-            const prod = document.getElementById('selectedProduct').value;
-
-            const text = `⚜️ *Al Ghani Fragrances - New Order* ⚜️\n\n🛍️ *Item:* ${prod}\n👤 *Customer:* ${name}\n📱 *Contact:* ${phone}\n📍 *Address:* ${addr}\n\n_Thank you for choosing luxury._`;
-            
+            const text = `⚜️ *Al Ghani Order* ⚜️\n\n🛍️ *Item:* ${document.getElementById('selectedProduct').value}\n👤 *Customer:* ${document.getElementById('custName').value}\n📱 *Phone:* ${document.getElementById('custPhone').value}\n📍 *Address:* ${document.getElementById('custAddress').value}`;
             window.open(`https://wa.me/923442128439?text=${encodeURIComponent(text)}`, '_blank');
-            
             const toast = document.getElementById('toast');
             toast.style.display = 'block';
             setTimeout(() => toast.style.display = 'none', 4000);
